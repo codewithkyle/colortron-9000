@@ -17,6 +17,7 @@
 
             --cool-grey: rgb(203, 210, 217);
             --cool-grey-hover: rgb(154,165,177);
+            --white: #fff;
 
             --primary: rgb(59,131,249);
         }
@@ -142,6 +143,7 @@
 
     <script type="module" src="assets/components/new-color-component.js"></script>
     <script type="module" src="assets/components/color-block-component.js"></script>
+    <script type="module" src="assets/components/color-modal-component.js"></script>
 </head>
 <body>
     <article>
@@ -170,6 +172,31 @@
                 </new-color-component>
             </project-colors>
         </section>
+        <section>
+            Colours go here
+        </section>
     </article>
+    <template tag="color-selector-modal">
+        <color-modal-component>
+            <color-modal-backdrop></color-modal-backdrop>
+            <color-modal-container>
+                <form class="js-new-color-form">
+                    <color-modal-input>
+                        <input type="color" class="js-new-color-preview" value="#3b83f9">
+                        <color-modal-details>
+                            <input type="text" class="js-new-color-input" data-type="hex" value="#3b83f9">
+                            <input type="text" class="js-new-color-input" data-type="rgb" value="rgb(59, 131, 249)">
+                            <input type="text" class="js-new-color-input" data-type="hsl" value="hsl(217, 94%, 60%)">
+                        </color-modal-details>
+                    </color-modal-input>
+                    <div>
+                        <button type="close" style="display: none;">Close</button>
+                        <button type="reset">Reset</button>
+                        <button type="submit">Add Color</button>
+                    </div>
+                </form>
+            </color-modal-container>
+        </color-modal-component>
+    </template>
 </body>
 </html>

@@ -6,12 +6,6 @@ color-block-component
     order: 1;
     cursor: pointer;
 
-    &.is-selected{
-        custom-color-preview{
-            box-shadow: 0 1px 3px rgba(25,25,25,0.1), 0 2px 6px rgba(25,25,25,0.1);
-        }
-    }
-
     custom-color-preview
     {
         border-radius: 8px;
