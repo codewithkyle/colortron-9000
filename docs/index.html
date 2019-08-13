@@ -152,6 +152,7 @@
     <script>
         window.stylesheets = [];
     </script>
+    <script type="module" src="assets/packages/color-convert.js"></script>
     <script type="module" src="assets/components/new-color-component.js"></script>
     <script type="module" src="assets/components/color-block-component.js"></script>
     <script type="module" src="assets/components/color-modal-component.js"></script>
@@ -183,7 +184,8 @@
             <color-modal-container>
                 <form class="js-new-color-form">
                     <color-modal-input>
-                        <input type="color" class="js-new-color-preview" value="#000000">
+                        <input type="color" id="color-preview" class="js-new-color-preview" value="#000000">
+                        <label for="color-preview" style="background-color: #000000;"></label>
                         <color-modal-details>
                             <input type="text" class="js-new-color-input" data-type="hex" value="hex">
                             <input type="text" class="js-new-color-input" data-type="rgb" value="rgb">

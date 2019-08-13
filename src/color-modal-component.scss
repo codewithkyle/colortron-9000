@@ -43,17 +43,27 @@ color-modal-component
                 display: flex;
                 flex-flow: row nowrap;
 
-                input[type=color]
+                label
                 {
                     width: 158px;
                     height: 158px;
                     margin-right: 2rem;
-                    border: none;
-                    outline: none;
                     border-radius: 8px;
+                    cursor: pointer;
+                    box-shadow: 0 1px 3px rgba(25,25,25,0.15);
                     transition: all 150ms ease;
-                    overflow: hidden;
-                    -webkit-appearance: none;
+                }
+
+                input[type=color]
+                {
+                    width: 0;
+                    height: 0;
+                    position: absolute;
+                    top: -9999px;
+                    left: -9999px;
+                    visibility: hidden;
+                    user-select: none;
+                    display: none;
                 }
 
                 color-modal-details
