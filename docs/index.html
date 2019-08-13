@@ -116,7 +116,7 @@
             margin-bottom: 4rem;
         }
 
-        project-colors
+        color-pallet-component
         {
             width: 100%;
             display: flex;
@@ -155,6 +155,7 @@
     <script type="module" src="assets/components/new-color-component.js"></script>
     <script type="module" src="assets/components/color-block-component.js"></script>
     <script type="module" src="assets/components/color-modal-component.js"></script>
+    <script type="module" src="assets/components/color-pallet-component.js"></script>
 </head>
 <body>
     <article>
@@ -163,25 +164,14 @@
             <p>Use this tool to automagically generate color pallets for a project.</p>
         </section>
         <section>
-            <project-colors>
-                <color-block-component data-index="0" data-color="3b83f9">
-                    <custom-color-preview role="button" class="js-color-button" style="background-color:#3b83f9;"></custom-color-preview>
-                    <color-block-actions>
-                        <button class="js-delete-button">
-                            <svg aria-hidden="true" focusable="false" data-prefix="fal" data-icon="trash-alt" class="svg-inline--fa fa-trash-alt fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M296 432h16a8 8 0 0 0 8-8V152a8 8 0 0 0-8-8h-16a8 8 0 0 0-8 8v272a8 8 0 0 0 8 8zm-160 0h16a8 8 0 0 0 8-8V152a8 8 0 0 0-8-8h-16a8 8 0 0 0-8 8v272a8 8 0 0 0 8 8zM440 64H336l-33.6-44.8A48 48 0 0 0 264 0h-80a48 48 0 0 0-38.4 19.2L112 64H8a8 8 0 0 0-8 8v16a8 8 0 0 0 8 8h24v368a48 48 0 0 0 48 48h288a48 48 0 0 0 48-48V96h24a8 8 0 0 0 8-8V72a8 8 0 0 0-8-8zM171.2 38.4A16.1 16.1 0 0 1 184 32h80a16.1 16.1 0 0 1 12.8 6.4L296 64H152zM384 464a16 16 0 0 1-16 16H80a16 16 0 0 1-16-16V96h320zm-168-32h16a8 8 0 0 0 8-8V152a8 8 0 0 0-8-8h-16a8 8 0 0 0-8 8v272a8 8 0 0 0 8 8z"></path></svg>
-                        </button>
-                        <button class="js-edit-button">
-                            <svg aria-hidden="true" focusable="false" data-prefix="fal" data-icon="pencil" class="svg-inline--fa fa-pencil fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M493.255 56.236l-37.49-37.49c-24.993-24.993-65.515-24.994-90.51 0L12.838 371.162.151 485.346c-1.698 15.286 11.22 28.203 26.504 26.504l114.184-12.687 352.417-352.417c24.992-24.994 24.992-65.517-.001-90.51zm-95.196 140.45L174 420.745V386h-48v-48H91.255l224.059-224.059 82.745 82.745zM126.147 468.598l-58.995 6.555-30.305-30.305 6.555-58.995L63.255 366H98v48h48v34.745l-19.853 19.853zm344.48-344.48l-49.941 49.941-82.745-82.745 49.941-49.941c12.505-12.505 32.748-12.507 45.255 0l37.49 37.49c12.506 12.506 12.507 32.747 0 45.255z"></path></svg>
-                        </button>
-                    </color-block-actions>
-                </color-block-component>
+            <color-pallet-component>
                 <new-color-component role="button">
                     <div>
                         <svg aria-hidden="true" focusable="false" data-prefix="fal" data-icon="layer-plus" class="svg-inline--fa fa-layer-plus fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M504 96h-88V8c0-4.42-3.58-8-8-8h-16c-4.42 0-8 3.58-8 8v88h-88c-4.42 0-8 3.58-8 8v16c0 4.42 3.58 8 8 8h88v88c0 4.42 3.58 8 8 8h16c4.42 0 8-3.58 8-8v-88h88c4.42 0 8-3.58 8-8v-16c0-4.42-3.58-8-8-8zm-6.77 270.71l-99.72-42.87 99.72-42.87c8.35-3.6 12.19-13.23 8.58-21.52-3.65-8.29-13.32-12.13-21.74-8.48l-225.32 96.86c-1.81.77-3.74.77-5.48 0L45.23 258.4l193.45-83.16c8.35-3.59 12.19-13.23 8.58-21.52-3.65-8.28-13.26-12.13-21.74-8.48L14.81 235.81C5.81 239.66 0 248.52 0 258.4c0 9.87 5.81 18.74 14.77 22.58l99.73 42.87-99.7 42.85C5.81 370.55 0 379.42 0 389.31c0 9.87 5.81 18.74 14.77 22.58l225.32 96.84c5.06 2.17 10.48 3.28 15.9 3.28s10.84-1.09 15.9-3.28l225.29-96.83c9-3.85 14.81-12.72 14.81-22.59.01-9.89-5.8-18.76-14.76-22.6zM258.74 478.72c-1.81.77-3.74.77-5.48 0L45.23 389.29 156 341.68l84.1 36.15c5.06 2.17 10.48 3.28 15.9 3.28s10.84-1.09 15.9-3.28l84.12-36.16 110.78 47.62-208.06 89.43z"></path></svg>
                         <span>Add Color</span>
                     </div>
                 </new-color-component>
-            </project-colors>
+            </color-pallet-component>
         </section>
         <section>
             Colours go here
@@ -193,11 +183,11 @@
             <color-modal-container>
                 <form class="js-new-color-form">
                     <color-modal-input>
-                        <input type="color" class="js-new-color-preview" value="#3b83f9">
+                        <input type="color" class="js-new-color-preview" value="#000000">
                         <color-modal-details>
-                            <input type="text" class="js-new-color-input" data-type="hex" value="#3b83f9">
-                            <input type="text" class="js-new-color-input" data-type="rgb" value="rgb(59, 131, 249)">
-                            <input type="text" class="js-new-color-input" data-type="hsl" value="hsl(217, 94%, 60%)">
+                            <input type="text" class="js-new-color-input" data-type="hex" value="hex">
+                            <input type="text" class="js-new-color-input" data-type="rgb" value="rgb">
+                            <input type="text" class="js-new-color-input" data-type="hsl" value="hsl">
                         </color-modal-details>
                     </color-modal-input>
                     <color-modal-actions>
@@ -207,6 +197,19 @@
                 </form>
             </color-modal-container>
         </color-modal-component>
+    </template>
+    <template tag="color-block-component">
+        <color-block-component>
+            <custom-color-preview role="button" class="js-color-button"></custom-color-preview>
+            <color-block-actions>
+                <button class="js-delete-button">
+                    <svg aria-hidden="true" focusable="false" data-prefix="fal" data-icon="trash-alt" class="svg-inline--fa fa-trash-alt fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M296 432h16a8 8 0 0 0 8-8V152a8 8 0 0 0-8-8h-16a8 8 0 0 0-8 8v272a8 8 0 0 0 8 8zm-160 0h16a8 8 0 0 0 8-8V152a8 8 0 0 0-8-8h-16a8 8 0 0 0-8 8v272a8 8 0 0 0 8 8zM440 64H336l-33.6-44.8A48 48 0 0 0 264 0h-80a48 48 0 0 0-38.4 19.2L112 64H8a8 8 0 0 0-8 8v16a8 8 0 0 0 8 8h24v368a48 48 0 0 0 48 48h288a48 48 0 0 0 48-48V96h24a8 8 0 0 0 8-8V72a8 8 0 0 0-8-8zM171.2 38.4A16.1 16.1 0 0 1 184 32h80a16.1 16.1 0 0 1 12.8 6.4L296 64H152zM384 464a16 16 0 0 1-16 16H80a16 16 0 0 1-16-16V96h320zm-168-32h16a8 8 0 0 0 8-8V152a8 8 0 0 0-8-8h-16a8 8 0 0 0-8 8v272a8 8 0 0 0 8 8z"></path></svg>
+                </button>
+                <button class="js-edit-button">
+                    <svg aria-hidden="true" focusable="false" data-prefix="fal" data-icon="pencil" class="svg-inline--fa fa-pencil fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M493.255 56.236l-37.49-37.49c-24.993-24.993-65.515-24.994-90.51 0L12.838 371.162.151 485.346c-1.698 15.286 11.22 28.203 26.504 26.504l114.184-12.687 352.417-352.417c24.992-24.994 24.992-65.517-.001-90.51zm-95.196 140.45L174 420.745V386h-48v-48H91.255l224.059-224.059 82.745 82.745zM126.147 468.598l-58.995 6.555-30.305-30.305 6.555-58.995L63.255 366H98v48h48v34.745l-19.853 19.853zm344.48-344.48l-49.941 49.941-82.745-82.745 49.941-49.941c12.505-12.505 32.748-12.507 45.255 0l37.49 37.49c12.506 12.506 12.507 32.747 0 45.255z"></path></svg>
+                </button>
+            </color-block-actions>
+        </color-block-component>
     </template>
     <script type="module" src="assets/components/application.js"></script>
 </body>

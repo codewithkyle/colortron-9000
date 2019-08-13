@@ -25,7 +25,6 @@ color-modal-component
         background-color: var(--white);
         border-radius: 8px;
         box-shadow: 0 1px 3px rgba(25,25,25,0.15), 0 4px 16px rgba(25,25,25,0.15);
-        width: 640px;
         max-width: 100%;
         padding: 2rem 1rem 1rem 2rem;
         opacity: 0;
@@ -60,6 +59,7 @@ color-modal-component
                 color-modal-details
                 {
                     flex-grow: 1;
+                    margin-right: 2rem;
 
                     input
                     {
@@ -67,14 +67,16 @@ color-modal-component
                         display: block;
                         height: 36px;
                         line-height: 36px;
-                        margin-bottom: 0.5rem;
-                        border-radius: 4px;
+                        margin-bottom: 0.75rem;
                         width: 100%;
+                        max-width: 220px;
+                        border-bottom: 1px dotted var(--cool-grey);
                         transition: all 150ms ease;
 
                         &:focus
                         {
                             color: var(--cool-grey-hover);
+                            border-color: var(--cool-grey-hover);
                         }
 
                         &:last-of-type
@@ -90,6 +92,7 @@ color-modal-component
                         &:hover
                         {
                             color: var(--cool-grey-hover);
+                            border-color: var(--cool-grey-hover);
                         }
                     }
                 }
