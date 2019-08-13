@@ -3,30 +3,12 @@ class ColorModalComponent extends HTMLElement {
         super();
         this.handleBackdropClick = this.closeModal.bind(this);
         this.handleKeypress = this.manageKeys.bind(this);
-        this.getStylesheet();
         this._backdrop = this.querySelector('color-modal-backdrop');
-    }
-    getStylesheet() {
-        let stylesheet = document.head.querySelector('[component="color-modal-component"]');
-        if (!stylesheet) {
-            stylesheet = document.createElement('style');
-            stylesheet.setAttribute('component', 'color-modal-component');
-            document.head.appendChild(stylesheet);
-            fetch(`${window.location.origin}${window.location.pathname}assets/styles/color-modal-component.css`)
-                .then(request => request.text())
-                .then(response => {
-                stylesheet.innerHTML = response;
-            })
-                .catch(error => {
-                console.error(error);
-            });
-        }
     }
     closeModal() {
         this.remove();
     }
     manageKeys(e) {
-        console.log(e);
         if (e.key.toLowerCase() === 'escape') {
             this.remove();
         }
@@ -41,3 +23,4 @@ class ColorModalComponent extends HTMLElement {
     }
 }
 customElements.define('color-modal-component', ColorModalComponent);
+window.stylesheets.push('color-modal-component');

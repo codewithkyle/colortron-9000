@@ -20,6 +20,8 @@
             --white: #fff;
 
             --primary: rgb(59,131,249);
+            --primary-hover-opacity: rgba(59,131,249,0.05);
+            --primary-active-opacity: rgba(59,131,249,0.1);
         }
     </style>
 
@@ -50,9 +52,16 @@
         }
         input::-webkit-inner-spin-button,
         input::-webkit-outer-spin-button,
-        input[type=number]{
+        input[type=number]
+        {
             -webkit-appearance: none;
             -moz-appearance: textfield;
+        }
+        input[type=color]::-webkit-color-swatch-wrapper,
+        input[type=color]::-webkit-color-swatch
+        {
+            padding: 0;
+            border: none;
         }
         template{
             display: none !important;
@@ -140,7 +149,9 @@
             opacity: 0.6;
         }
     </style>
-
+    <script>
+        window.stylesheets = [];
+    </script>
     <script type="module" src="assets/components/new-color-component.js"></script>
     <script type="module" src="assets/components/color-block-component.js"></script>
     <script type="module" src="assets/components/color-modal-component.js"></script>
@@ -189,14 +200,15 @@
                             <input type="text" class="js-new-color-input" data-type="hsl" value="hsl(217, 94%, 60%)">
                         </color-modal-details>
                     </color-modal-input>
-                    <div>
+                    <color-modal-actions>
                         <button type="close" style="display: none;">Close</button>
                         <button type="reset">Reset</button>
                         <button type="submit">Add Color</button>
-                    </div>
+                    </color-modal-actions>
                 </form>
             </color-modal-container>
         </color-modal-component>
     </template>
+    <script type="module" src="assets/components/application.js"></script>
 </body>
 </html>

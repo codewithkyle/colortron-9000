@@ -22,9 +22,106 @@ color-modal-component
     color-modal-container
     {
         background-color: var(--white);
-        padding: 2rem;
         border-radius: 8px;
         box-shadow: 0 1px 3px rgba(25,25,25,0.15), 0 4px 16px rgba(25,25,25,0.15);
-        width: 356px;
+        width: 640px;
+        max-width: 100%;
+        padding: 2rem 1rem 1rem 2rem;
+
+        form
+        {
+            display: grid;
+            grid-template-rows: 1fr;
+            gap: 1rem;
+
+            color-modal-input
+            {
+                display: flex;
+                flex-flow: row nowrap;
+
+                input[type=color]
+                {
+                    width: 158px;
+                    height: 158px;
+                    margin-right: 2rem;
+                    border: none;
+                    outline: none;
+                    border-radius: 8px;
+                    transition: all 150ms ease;
+                    overflow: hidden;
+                    -webkit-appearance: none;
+                }
+
+                color-modal-details
+                {
+                    flex-grow: 1;
+
+                    input
+                    {
+                        color: var(--cool-grey);
+                        display: block;
+                        height: 36px;
+                        line-height: 36px;
+                        margin-bottom: 0.5rem;
+                        border-radius: 4px;
+                        width: 100%;
+                        transition: all 150ms ease;
+
+                        &:focus
+                        {
+                            color: var(--cool-grey-hover);
+                        }
+
+                        &:last-of-type
+                        {
+                            margin-bottom: 0;
+                        }
+
+                        &.has-value
+                        {
+                            color: var(--cool-grey-hover);
+                        }
+
+                        &:hover
+                        {
+                            color: var(--cool-grey-hover);
+                        }
+                    }
+                }
+            }
+
+            color-modal-actions
+            {
+                width: 100%;
+                text-align: right;
+                font-size: 0;
+                white-space: nowrap;
+
+                button
+                {
+                    margin-left: 0.5rem;
+                    height: 36px;
+                    line-height: 36px;
+                    padding: 0 0.5rem;
+                    border-radius: 0.25rem;
+                    color: var(--primary);
+                    transition: all 75ms ease;
+                    text-transform: uppercase;
+                    font-weight: 600;
+                    font-size: 0.865rem;
+                    cursor: pointer;
+
+                    &:hover
+                    {
+                        background-color: var(--primary-hover-opacity);
+                    }
+
+                    &:active
+                    {
+                        background-color: var(--primary-active-opacity);
+                    }
+                }
+            }
+        }
     }
 }

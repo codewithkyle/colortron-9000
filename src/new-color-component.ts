@@ -6,27 +6,7 @@ class NewColorComponent extends HTMLElement
     constructor()
     {
         super();
-        this.getStylesheet();
         this._modalTemplate = document.body.querySelector('[tag="color-selector-modal"]');
-    }
-
-    private getStylesheet()
-    {
-        let stylesheet = document.head.querySelector('[component="new-color-component"]');
-        if (!stylesheet)
-        {
-            stylesheet = document.createElement('style');
-            stylesheet.setAttribute('component', 'new-color-component');
-            document.head.appendChild(stylesheet);
-            fetch(`${ window.location.origin }${ window.location.pathname }assets/styles/new-color-component.css`)
-            .then(request => request.text())
-            .then(response => {
-                stylesheet.innerHTML = response;
-            })
-            .catch(error => {   
-                console.error(error);
-            });
-        }
     }
 
     private handleClick:EventListener = this.displayColorSelectorModal.bind(this);
@@ -44,3 +24,4 @@ class NewColorComponent extends HTMLElement
 }
 
 customElements.define('new-color-component', NewColorComponent);
+window.stylesheets.push('new-color-component');
