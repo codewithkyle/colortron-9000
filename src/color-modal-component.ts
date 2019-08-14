@@ -4,6 +4,7 @@ class ColorModalComponent extends HTMLElement
     private _backdrop : HTMLElement;
     private _form : HTMLFormElement;
     private _closeButton : HTMLButtonElement;
+    private _submitButton : HTMLButtonElement;
     
     private _inputs : Array<HTMLInputElement>;
     private _hexInput : HTMLInputElement;
@@ -14,12 +15,16 @@ class ColorModalComponent extends HTMLElement
 
     private _pallet : ColorPalletComponent;
 
+    private _blockBeingEdited : ColorBlockComponent;
+    private _initialColor : string;
+
     constructor()
     {
         super();
         this._backdrop = this.querySelector('color-modal-backdrop');
         this._form = this.querySelector('form');
         this._closeButton = this.querySelector('button[type="close"]');
+        this._submitButton = this.querySelector('button[type="submit"]');
         this._inputs = Array.from(this.querySelectorAll('input[type="text"]'));
         this._colorInput = this.querySelector('input[type="color"]');
         this._colorPreview = this.querySelector('label');
@@ -29,6 +34,9 @@ class ColorModalComponent extends HTMLElement
         this._hslInput = this.querySelector('input[data-type="hsl"]');
 
         this._pallet = document.body.querySelector('color-pallet-component');
+
+        this._blockBeingEdited = null;
+        this._initialColor = null;
     }
 
     private handleBackdropClick:EventListener = this.closeModal.bind(this);
@@ -39,7 +47,7 @@ class ColorModalComponent extends HTMLElement
     private handleInputKeyup:EventListener = this.detectColor.bind(this);
     private handleColorChange:EventListener = this.changeColor.bind(this);
 
-    public setInitialColor(color:string) : void
+    public setInitialColor(color:string, block:ColorBlockComponent) : void
     {
         const hex = color;
         const rgb = convert.hex.rgb(color);
@@ -48,20 +56,36 @@ class ColorModalComponent extends HTMLElement
         this._hexInput.value = hex;
         this._rgbInput.value = `rgb(${ rgb })`;
         this._hslInput.value = `hsl(${ hsl[0] }, ${ hsl[1] }%, ${ hsl[2] }%)`;
-        this._colorInput.value = `#${ hex }`;
+        this._colorInput.value = `${ hex }`;
         this._colorPreview.style.backgroundColor = `rgb(${ rgb })`;
+
+        this._blockBeingEdited = block;
+        this._initialColor = color.replace('#', '');
+
+        this._submitButton.innerText = 'Update';
     }
 
     private addColor(e:Event) : void
     {
         e.preventDefault();
         const color = this._colorInput.value.replace('#', '');
-        this._pallet.createBlock(color);
-        this.remove();
+
+        if (this._blockBeingEdited)
+        {
+            this._blockBeingEdited.updateColor(color);
+            this._pallet.updateColor(color, this._initialColor);
+        }
+        else
+        {
+            this._pallet.createBlock(color);
+        }
+
+        this.closeModal();
     }
 
     private closeModal() : void
     {
+        this._blockBeingEdited = null;
         this.remove();
     }
 
@@ -69,7 +93,7 @@ class ColorModalComponent extends HTMLElement
     {
         if (e.key.toLowerCase() === 'escape')
         {
-            this.remove();
+            this.closeModal();
         }
     }
 

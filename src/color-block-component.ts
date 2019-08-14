@@ -5,6 +5,7 @@ class ColorBlockComponent extends HTMLElement
     private _colorButton : HTMLElement;
     private _color : string;
     private _modalTemplate : HTMLTemplateElement;
+    private _pallet : ColorPalletComponent;
 
     constructor()
     {
@@ -14,6 +15,7 @@ class ColorBlockComponent extends HTMLElement
         this._colorButton = this.querySelector('.js-color-button');
         this._color = '#000000';
         this._modalTemplate = document.body.querySelector('[tag="color-selector-modal"]');
+        this._pallet = document.body.querySelector('color-pallet-component');
     }
 
     private handleDeleteClick:EventListener = this.removeColor.bind(this);
@@ -22,6 +24,7 @@ class ColorBlockComponent extends HTMLElement
 
     private removeColor() : void
     {
+        this._pallet.removeColor(this._color.replace('#', ''));
         this.remove();
     }
 
@@ -30,7 +33,15 @@ class ColorBlockComponent extends HTMLElement
         const modal = document.importNode(this._modalTemplate.content, true);
         document.body.appendChild(modal);
         const modalComponent = document.body.querySelector('color-modal-component') as ColorModalComponent;
-        modalComponent.setInitialColor(this._color);
+        modalComponent.setInitialColor(this._color, this);
+    }
+
+    public updateColor(color:string) : void
+    {
+        const colorPreview = this.querySelector('custom-color-preview') as HTMLElement;
+        colorPreview.style.backgroundColor = `#${ color }`;
+        this._color = `#${ color }`;
+        colorPreview.dataset.color = this._color;
     }
 
     private activateColor() : void

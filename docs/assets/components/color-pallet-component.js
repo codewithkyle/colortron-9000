@@ -14,7 +14,10 @@ class ColorPalletComponent extends HTMLElement {
         }
     }
     updateUrl() {
-        let newUrl = `${window.location.origin}${window.location.pathname}?`;
+        let newUrl = `${window.location.origin}${window.location.pathname}`;
+        if (this._colorPallet.length) {
+            newUrl += '?';
+        }
         for (let i = 0; i < this._colorPallet.length; i++) {
             newUrl += `colors[]=${this._colorPallet[i]}`;
             if (i != this._colorPallet.length - 1) {
@@ -29,6 +32,24 @@ class ColorPalletComponent extends HTMLElement {
         const preview = newColorComponent.querySelector('custom-color-preview');
         preview.style.backgroundColor = `#${color}`;
         this.appendChild(newColorComponent);
+        this.updateUrl();
+    }
+    removeColor(color) {
+        for (let i = 0; i < this._colorPallet.length; i++) {
+            if (this._colorPallet[i].toLowerCase() === color.toLowerCase()) {
+                this._colorPallet.splice(i, 1);
+                break;
+            }
+        }
+        this.updateUrl();
+    }
+    updateColor(newColor, oldColor) {
+        for (let i = 0; i < this._colorPallet.length; i++) {
+            if (this._colorPallet[i].toLowerCase() === oldColor.toLowerCase()) {
+                this._colorPallet[i] = newColor.toLowerCase();
+                break;
+            }
+        }
         this.updateUrl();
     }
     connectedCallback() {

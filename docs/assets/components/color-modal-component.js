@@ -11,6 +11,7 @@ class ColorModalComponent extends HTMLElement {
         this._backdrop = this.querySelector('color-modal-backdrop');
         this._form = this.querySelector('form');
         this._closeButton = this.querySelector('button[type="close"]');
+        this._submitButton = this.querySelector('button[type="submit"]');
         this._inputs = Array.from(this.querySelectorAll('input[type="text"]'));
         this._colorInput = this.querySelector('input[type="color"]');
         this._colorPreview = this.querySelector('label');
@@ -18,29 +19,41 @@ class ColorModalComponent extends HTMLElement {
         this._rgbInput = this.querySelector('input[data-type="rgb"]');
         this._hslInput = this.querySelector('input[data-type="hsl"]');
         this._pallet = document.body.querySelector('color-pallet-component');
+        this._blockBeingEdited = null;
+        this._initialColor = null;
     }
-    setInitialColor(color) {
+    setInitialColor(color, block) {
         const hex = color;
         const rgb = convert.hex.rgb(color);
         const hsl = convert.hex.hsl(color);
         this._hexInput.value = hex;
         this._rgbInput.value = `rgb(${rgb})`;
         this._hslInput.value = `hsl(${hsl[0]}, ${hsl[1]}%, ${hsl[2]}%)`;
-        this._colorInput.value = `#${hex}`;
+        this._colorInput.value = `${hex}`;
         this._colorPreview.style.backgroundColor = `rgb(${rgb})`;
+        this._blockBeingEdited = block;
+        this._initialColor = color.replace('#', '');
+        this._submitButton.innerText = 'Update';
     }
     addColor(e) {
         e.preventDefault();
         const color = this._colorInput.value.replace('#', '');
-        this._pallet.createBlock(color);
-        this.remove();
+        if (this._blockBeingEdited) {
+            this._blockBeingEdited.updateColor(color);
+            this._pallet.updateColor(color, this._initialColor);
+        }
+        else {
+            this._pallet.createBlock(color);
+        }
+        this.closeModal();
     }
     closeModal() {
+        this._blockBeingEdited = null;
         this.remove();
     }
     manageKeys(e) {
         if (e.key.toLowerCase() === 'escape') {
-            this.remove();
+            this.closeModal();
         }
     }
     focusInput(e) {
