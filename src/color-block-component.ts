@@ -3,6 +3,8 @@ class ColorBlockComponent extends HTMLElement
     private _deleteButton : HTMLButtonElement;
     private _editButton : HTMLButtonElement;
     private _colorButton : HTMLElement;
+    private _color : string;
+    private _modalTemplate : HTMLTemplateElement;
 
     constructor()
     {
@@ -10,6 +12,8 @@ class ColorBlockComponent extends HTMLElement
         this._deleteButton = this.querySelector('.js-delete-button');
         this._editButton = this.querySelector('.js-edit-button');
         this._colorButton = this.querySelector('.js-color-button');
+        this._color = '#000000';
+        this._modalTemplate = document.body.querySelector('[tag="color-selector-modal"]');
     }
 
     private handleDeleteClick:EventListener = this.removeColor.bind(this);
@@ -23,7 +27,10 @@ class ColorBlockComponent extends HTMLElement
 
     private editColor() : void
     {
-
+        const modal = document.importNode(this._modalTemplate.content, true);
+        document.body.appendChild(modal);
+        const modalComponent = document.body.querySelector('color-modal-component') as ColorModalComponent;
+        modalComponent.setInitialColor(this._color);
     }
 
     private activateColor() : void
@@ -36,6 +43,12 @@ class ColorBlockComponent extends HTMLElement
         this._deleteButton.addEventListener('click', this.handleDeleteClick);
         this._editButton.addEventListener('click', this.handleEditClick);
         this._colorButton.addEventListener('click', this.handleColorClick);
+        
+        const colorPreview = this.querySelector('custom-color-preview') as HTMLElement;
+        const cleanValue = colorPreview.style.backgroundColor.replace(/[rgb\(\)\s]/gi, '');
+        const rgbValue = cleanValue.split(',');
+        this._color = `#${ convert.rgb.hex(rgbValue) }`;
+        colorPreview.dataset.color = this._color;
     }
 
     disconnectedCallback()

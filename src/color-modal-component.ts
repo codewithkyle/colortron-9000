@@ -39,6 +39,19 @@ class ColorModalComponent extends HTMLElement
     private handleInputKeyup:EventListener = this.detectColor.bind(this);
     private handleColorChange:EventListener = this.changeColor.bind(this);
 
+    public setInitialColor(color:string) : void
+    {
+        const hex = color;
+        const rgb = convert.hex.rgb(color);
+        const hsl = convert.hex.hsl(color);
+
+        this._hexInput.value = hex;
+        this._rgbInput.value = `rgb(${ rgb })`;
+        this._hslInput.value = `hsl(${ hsl[0] }, ${ hsl[1] }%, ${ hsl[2] }%)`;
+        this._colorInput.value = `#${ hex }`;
+        this._colorPreview.style.backgroundColor = `rgb(${ rgb })`;
+    }
+
     private addColor(e:Event) : void
     {
         e.preventDefault();

@@ -19,6 +19,16 @@ class ColorModalComponent extends HTMLElement {
         this._hslInput = this.querySelector('input[data-type="hsl"]');
         this._pallet = document.body.querySelector('color-pallet-component');
     }
+    setInitialColor(color) {
+        const hex = color;
+        const rgb = convert.hex.rgb(color);
+        const hsl = convert.hex.hsl(color);
+        this._hexInput.value = hex;
+        this._rgbInput.value = `rgb(${rgb})`;
+        this._hslInput.value = `hsl(${hsl[0]}, ${hsl[1]}%, ${hsl[2]}%)`;
+        this._colorInput.value = `#${hex}`;
+        this._colorPreview.style.backgroundColor = `rgb(${rgb})`;
+    }
     addColor(e) {
         e.preventDefault();
         const color = this._colorInput.value.replace('#', '');

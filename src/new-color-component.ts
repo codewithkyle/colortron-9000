@@ -1,6 +1,5 @@
 class NewColorComponent extends HTMLElement
 {
-
     private _modalTemplate : HTMLTemplateElement;
 
     constructor()
