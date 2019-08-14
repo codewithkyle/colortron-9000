@@ -7,8 +7,7 @@ class Application
 
     private getStylesheets() : void
     {
-        console.log('Fetching stylesheets');
-        do
+        while (window.stylesheets.length)
         {
             const stylesheet = window.stylesheets[0];
 
@@ -30,7 +29,6 @@ class Application
 
             window.stylesheets.splice(0, 1);
         }
-        while (window.stylesheets.length);
     }
 
     private init() : void

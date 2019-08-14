@@ -20,8 +20,8 @@
             --white: #fff;
 
             --primary: rgb(59,131,249);
-            --primary-hover-opacity: rgba(59,131,249,0.05);
-            --primary-active-opacity: rgba(59,131,249,0.1);
+            --primary-hover-opacity: rgba(59,131,249,0.07);
+            --primary-active-opacity: rgba(59,131,249,0.15);
         }
     </style>
 
@@ -157,6 +157,7 @@
     <script type="module" src="assets/components/color-block-component.js"></script>
     <script type="module" src="assets/components/color-modal-component.js"></script>
     <script type="module" src="assets/components/color-pallet-component.js"></script>
+    <script type="module" src="assets/components/pallet-breakdown-component.js"></script>
 </head>
 <body>
     <article>
@@ -175,7 +176,14 @@
             </color-pallet-component>
         </section>
         <section>
-            Colours go here
+            <pallet-breakdown-component>
+                <tabs-container role="nav">
+                    <pallet-tab data-index="0">Colors</pallet-tab>
+                    <pallet-tab data-index="1">SCSS</pallet-tab>
+                    <pallet-tab data-index="2">CSS</pallet-tab>
+                    <tab-underline aria-hidden="true"></tab-underline>
+                </tabs-container>
+            </pallet-breakdown-component>
         </section>
     </article>
     <template tag="color-selector-modal">
