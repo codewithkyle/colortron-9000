@@ -2,6 +2,7 @@ class ColorPalletComponent extends HTMLElement {
     constructor() {
         super();
         this._colorBlockTemplate = document.body.querySelector('template[tag="color-block-component"]');
+        this._colorPallet = [];
     }
     generateInitialColorBlockComponents(colors) {
         this._colorPallet = colors;
@@ -11,6 +12,24 @@ class ColorPalletComponent extends HTMLElement {
             preview.style.backgroundColor = `#${colors[i]}`;
             this.appendChild(newColorComponent);
         }
+    }
+    updateUrl() {
+        let newUrl = `${window.location.origin}${window.location.pathname}?`;
+        for (let i = 0; i < this._colorPallet.length; i++) {
+            newUrl += `colors[]=${this._colorPallet[i]}`;
+            if (i != this._colorPallet.length - 1) {
+                newUrl += '&';
+            }
+        }
+        window.history.replaceState({}, document.title, newUrl);
+    }
+    createBlock(color) {
+        this._colorPallet.push(color);
+        const newColorComponent = document.importNode(this._colorBlockTemplate.content, true);
+        const preview = newColorComponent.querySelector('custom-color-preview');
+        preview.style.backgroundColor = `#${color}`;
+        this.appendChild(newColorComponent);
+        this.updateUrl();
     }
     connectedCallback() {
         if (window.location.search) {

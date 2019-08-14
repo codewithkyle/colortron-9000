@@ -12,6 +12,8 @@ class ColorModalComponent extends HTMLElement
     private _colorInput : HTMLInputElement;
     private _colorPreview : HTMLElement;
 
+    private _pallet : ColorPalletComponent;
+
     constructor()
     {
         super();
@@ -25,6 +27,8 @@ class ColorModalComponent extends HTMLElement
         this._hexInput = this.querySelector('input[data-type="hex"]');
         this._rgbInput = this.querySelector('input[data-type="rgb"]');
         this._hslInput = this.querySelector('input[data-type="hsl"]');
+
+        this._pallet = document.body.querySelector('color-pallet-component');
     }
 
     private handleBackdropClick:EventListener = this.closeModal.bind(this);
@@ -38,6 +42,9 @@ class ColorModalComponent extends HTMLElement
     private addColor(e:Event) : void
     {
         e.preventDefault();
+        const color = this._colorInput.value.replace('#', '');
+        this._pallet.createBlock(color);
+        this.remove();
     }
 
     private closeModal() : void
