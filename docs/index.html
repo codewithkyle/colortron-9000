@@ -106,10 +106,11 @@
 
         article
         {
-            width: 1024px;
+            width: 1200px;
             display: block;
             margin: 0 auto;
             padding: 0 2rem;
+            max-width: 100%;
         }
 
         section:not(:last-of-type)
@@ -161,6 +162,7 @@
     <script type="module" src="assets/components/color-pallet-component.js"></script>
     <script type="module" src="assets/components/pallet-breakdown-component.js"></script>
     <script type="module" src="assets/components/color-breakdown-component.js"></script>
+    <script type="module" src="assets/components/color-value-component.js"></script>
 </head>
 <body>
     <article>
@@ -235,6 +237,9 @@
                 <color-hsl></color-hsl>
             </color-breakdown>
         </color-breakdown-component>
+    </template>
+    <template tag="color-value-component">
+        <color-value-component></color-value-component>
     </template>
     <script type="module" src="assets/components/application.js"></script>
 </body>

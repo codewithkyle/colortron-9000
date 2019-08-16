@@ -12,7 +12,10 @@ class PalletBreakdownComponent extends HTMLElement
     private _tabs : Array<HTMLElement>;
 
     private _colorBreakdownTemplate : HTMLTemplateElement;
+    private _colorValueTemplate : HTMLTemplateElement;
     private _breakdownGrid : HTMLElement;
+
+    private _colors : Array<Color>;
 
     constructor()
     {
@@ -22,7 +25,10 @@ class PalletBreakdownComponent extends HTMLElement
         this._tabs = Array.from(this.querySelectorAll('pallet-tab'));
         
         this._colorBreakdownTemplate = document.body.querySelector('template[tag="color-breakdown-component"]');
+        this._colorValueTemplate = document.body.querySelector('template[tag="color-value-component"]');
         this._breakdownGrid = this.querySelector('pallet-breakdown-grid');
+
+        this._colors = [];
     }
 
     private handleTabClick:EventListener = this.switchTab.bind(this);
@@ -33,12 +39,12 @@ class PalletBreakdownComponent extends HTMLElement
         const newTabIndex = parseInt(target.dataset.index);
 
         this.updateTabs(newTabIndex);
+        this.updateColorBreakdown(newTabIndex);
     }
 
     private updateTabs(newTabIndex:number) : void
     {
         this._tabUnderline.style.transform = `translateX(${ newTabIndex * 90 }px)`;
-
         for (let i = 0; i < this._tabs.length; i++)
         {
             if (i !== newTabIndex)
@@ -50,6 +56,40 @@ class PalletBreakdownComponent extends HTMLElement
                 this._tabs[i].classList.add('is-active');
             }
         }
+    }
+
+    private updateColorBreakdown(index:number) : void
+    {
+        let i = 1;
+        this._colors.forEach((color)=>{
+            const breakdownComponent:HTMLElement = this.querySelector(`color-breakdown-component[data-index="${ i }"]`);
+            const hexDisplay:HTMLElement = breakdownComponent.querySelector('color-value-component[color="hex"]');
+            const rgbDisplay:HTMLElement = breakdownComponent.querySelector('color-value-component[color="rgb"]');
+            const hslDisplay:HTMLElement = breakdownComponent.querySelector('color-value-component[color="hsl"]');
+
+            switch (index)
+            {
+                case 0:
+                    hexDisplay.innerHTML = `#${ convert.hsl.hex(color.h, color.s, color.l) }`;
+                    rgbDisplay.innerHTML = `rgb(${ convert.hsl.rgb(color.h, color.s, color.l) })`;
+                    hslDisplay.innerHTML = `hsl(${ color.h }, ${ color.s }%, ${ color.l }%)`;
+                    break;
+                case 1:
+                    hexDisplay.innerHTML = `$color-${ i }: #${ convert.hsl.hex(color.h, color.s, color.l) };`;
+                    rgbDisplay.innerHTML = `$color-${ i }: rgb(${ convert.hsl.rgb(color.h, color.s, color.l) });`;
+                    hslDisplay.innerHTML = `$color-${ i }: hsl(${ color.h }, ${ color.s }%, ${ color.l }%);`;
+                    break;
+                case 2:
+                    hexDisplay.innerHTML = `--color-${ i }: #${ convert.hsl.hex(color.h, color.s, color.l) };`;
+                    rgbDisplay.innerHTML = `--color-${ i }: rgb(${ convert.hsl.rgb(color.h, color.s, color.l) });`;
+                    hslDisplay.innerHTML = `--color-${ i }: hsl(${ color.h }, ${ color.s }%, ${ color.l }%);`;
+                    break;
+            }
+
+            this._breakdownGrid.appendChild(breakdownComponent);
+            
+            i++;
+        });
     }
 
     private generateHslArray(hex:string) : Array<Color>
@@ -131,16 +171,40 @@ class PalletBreakdownComponent extends HTMLElement
     public generateColorBreakdown(initial:string) : void
     {
         const baseHex = initial.replace('#', '').toLowerCase();
-        const colors = this.generateHslArray(baseHex);
+        this._colors = this.generateHslArray(baseHex);
         
         this._breakdownGrid.innerHTML = '';
         let i = 1;
-        colors.forEach((color)=>{
+        this._colors.forEach((color)=>{
             const newBreakdownComponent = document.importNode(this._colorBreakdownTemplate.content, true);
+
             const colorPreview:HTMLElement = newBreakdownComponent.querySelector('color-preview');
             colorPreview.style.backgroundColor = `#${ convert.hsl.hex(color.h, color.s, color.l) }`;
-            this._breakdownGrid.appendChild(newBreakdownComponent);
+            colorPreview.parentElement.dataset.index = i.toString();
+
+            const colorBreakdownContainer = newBreakdownComponent.querySelector('color-breakdown');
             
+            const hexDisplay = document.importNode(this._colorValueTemplate.content, true);
+            colorBreakdownContainer.appendChild(hexDisplay);
+            const hexEl = colorBreakdownContainer.querySelector('color-value-component:not([color])');
+            hexEl.setAttribute('color', 'hex');
+
+            const rgbDisplay = document.importNode(this._colorValueTemplate.content, true);
+            colorBreakdownContainer.appendChild(rgbDisplay);
+            const rgbEl = colorBreakdownContainer.querySelector('color-value-component:not([color])');
+            rgbEl.setAttribute('color', 'rgb');
+
+            const hslDisplay = document.importNode(this._colorValueTemplate.content, true);
+            colorBreakdownContainer.appendChild(hslDisplay);
+            const hslEl = colorBreakdownContainer.querySelector('color-value-component:not([color])');
+            hslEl.setAttribute('color', 'hsl');
+        
+
+            hexEl.innerHTML = `#${ convert.hsl.hex(color.h, color.s, color.l) }`;
+            rgbEl.innerHTML = `rgb(${ convert.hsl.rgb(color.h, color.s, color.l) })`;
+            hslEl.innerHTML = `hsl(${ color.h }, ${ color.s }%, ${ color.l }%)`;
+
+            this._breakdownGrid.appendChild(newBreakdownComponent);
             i++;
         });
     }
