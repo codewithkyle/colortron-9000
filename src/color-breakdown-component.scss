@@ -1,0 +1,37 @@
+color-breakdown-component
+{
+    border: 1px solid var(--cool-grey);
+    border-radius: 1rem;
+    padding: 1rem;
+    background-color: var(--white);
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: flex-start;
+
+    color-preview
+    {
+        border-radius: 8px;
+        width: 158px;
+        height: 158px;
+        display: inline-block;
+        box-shadow: 0 1px 3px rgba(25,25,25,0.15);
+        margin-right: 1rem;
+    }
+
+    color-breakdown
+    {
+        color-hex,
+        color-rgb,
+        color-hsl
+        {
+            background-color: var(--grey);
+            border-radius: 0.25rem;
+            line-height: 48px;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            padding: 0 1rem;
+            overflow-x: auto;
+            text-overflow: ellipsis;
+        }
+    }
+}

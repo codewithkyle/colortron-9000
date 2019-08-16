@@ -10,6 +10,7 @@ class ColorBlockComponent extends HTMLElement {
         this._color = '#000000';
         this._modalTemplate = document.body.querySelector('[tag="color-selector-modal"]');
         this._pallet = document.body.querySelector('color-pallet-component');
+        this._palletBreakdownComponent = document.body.querySelector('pallet-breakdown-component');
     }
     removeColor() {
         this._pallet.removeColor(this._color.replace('#', ''));
@@ -28,6 +29,7 @@ class ColorBlockComponent extends HTMLElement {
         colorPreview.dataset.color = this._color;
     }
     activateColor() {
+        this._palletBreakdownComponent.generateColorBreakdown(this._color);
     }
     connectedCallback() {
         this._deleteButton.addEventListener('click', this.handleDeleteClick);

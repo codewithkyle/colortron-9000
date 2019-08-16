@@ -18,6 +18,7 @@
             --cool-grey: rgb(203, 210, 217);
             --cool-grey-hover: rgb(154,165,177);
             --white: #fff;
+            --grey: rgba(27,31,35,.05);
 
             --primary: rgb(59,131,249);
             --primary-hover-opacity: rgba(59,131,249,0.07);
@@ -153,11 +154,13 @@
         window.stylesheets = [];
     </script>
     <script type="module" src="assets/packages/color-convert.js"></script>
+    
     <script type="module" src="assets/components/new-color-component.js"></script>
     <script type="module" src="assets/components/color-block-component.js"></script>
     <script type="module" src="assets/components/color-modal-component.js"></script>
     <script type="module" src="assets/components/color-pallet-component.js"></script>
     <script type="module" src="assets/components/pallet-breakdown-component.js"></script>
+    <script type="module" src="assets/components/color-breakdown-component.js"></script>
 </head>
 <body>
     <article>
@@ -183,6 +186,8 @@
                     <pallet-tab data-index="2">CSS</pallet-tab>
                     <tab-underline aria-hidden="true"></tab-underline>
                 </tabs-container>
+                <pallet-breakdown-grid>
+                </pallet-breakdown-grid>
             </pallet-breakdown-component>
         </section>
     </article>
@@ -220,6 +225,16 @@
                 </button>
             </color-block-actions>
         </color-block-component>
+    </template>
+    <template tag="color-breakdown-component">
+        <color-breakdown-component>
+            <color-preview></color-preview>
+            <color-breakdown>
+                <color-hex></color-hex>
+                <color-rgb></color-rgb>
+                <color-hsl></color-hsl>
+            </color-breakdown>
+        </color-breakdown-component>
     </template>
     <script type="module" src="assets/components/application.js"></script>
 </body>
