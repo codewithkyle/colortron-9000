@@ -9,10 +9,12 @@ class PalletBreakdownComponent extends HTMLElement {
         this._colorValueTemplate = document.body.querySelector('template[tag="color-value-component"]');
         this._breakdownGrid = this.querySelector('pallet-breakdown-grid');
         this._colors = [];
+        this._tabIndex = 0;
     }
     switchTab(e) {
         const target = e.currentTarget;
         const newTabIndex = parseInt(target.dataset.index);
+        this._tabIndex = newTabIndex;
         this.updateTabs(newTabIndex);
         this.updateColorBreakdown(newTabIndex);
     }
@@ -126,6 +128,7 @@ class PalletBreakdownComponent extends HTMLElement {
         return colorArray;
     }
     generateColorBreakdown(initial) {
+        this.classList.add('is-visible');
         const baseHex = initial.replace('#', '').toLowerCase();
         this._colors = this.generateHslArray(baseHex);
         this._breakdownGrid.innerHTML = '';
@@ -148,9 +151,23 @@ class PalletBreakdownComponent extends HTMLElement {
             colorBreakdownContainer.appendChild(hslDisplay);
             const hslEl = colorBreakdownContainer.querySelector('color-value-component:not([color])');
             hslEl.setAttribute('color', 'hsl');
-            hexEl.innerHTML = `#${convert.hsl.hex(color.h, color.s, color.l)}`;
-            rgbEl.innerHTML = `rgb(${convert.hsl.rgb(color.h, color.s, color.l)})`;
-            hslEl.innerHTML = `hsl(${color.h}, ${color.s}%, ${color.l}%)`;
+            switch (this._tabIndex) {
+                case 0:
+                    hexEl.innerHTML = `#${convert.hsl.hex(color.h, color.s, color.l)}`;
+                    rgbEl.innerHTML = `rgb(${convert.hsl.rgb(color.h, color.s, color.l)})`;
+                    hslEl.innerHTML = `hsl(${color.h}, ${color.s}%, ${color.l}%)`;
+                    break;
+                case 1:
+                    hexEl.innerHTML = `$color-${i}: #${convert.hsl.hex(color.h, color.s, color.l)};`;
+                    rgbEl.innerHTML = `$color-${i}: rgb(${convert.hsl.rgb(color.h, color.s, color.l)});`;
+                    hslEl.innerHTML = `$color-${i}: hsl(${color.h}, ${color.s}%, ${color.l}%);`;
+                    break;
+                case 2:
+                    hexEl.innerHTML = `--color-${i}: #${convert.hsl.hex(color.h, color.s, color.l)};`;
+                    rgbEl.innerHTML = `--color-${i}: rgb(${convert.hsl.rgb(color.h, color.s, color.l)});`;
+                    hslEl.innerHTML = `--color-${i}: hsl(${color.h}, ${color.s}%, ${color.l}%);`;
+                    break;
+            }
             this._breakdownGrid.appendChild(newBreakdownComponent);
             i++;
         });

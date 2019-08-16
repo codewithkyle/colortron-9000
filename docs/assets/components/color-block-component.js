@@ -40,6 +40,7 @@ class ColorBlockComponent extends HTMLElement {
         const rgbValue = cleanValue.split(',');
         this._color = `#${convert.rgb.hex(rgbValue)}`;
         colorPreview.dataset.color = this._color;
+        this._palletBreakdownComponent.generateColorBreakdown(this._color);
     }
     disconnectedCallback() {
         this._deleteButton.removeEventListener('click', this.handleDeleteClick);
