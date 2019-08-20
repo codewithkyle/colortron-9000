@@ -14,7 +14,7 @@ class ColorPalletComponent extends HTMLElement {
         }
     }
     updateUrl() {
-        let newUrl = `${window.location.origin}${window.location.pathname}`;
+        let newUrl = `${window.location.origin}`;
         if (this._colorPallet.length) {
             newUrl += '?';
         }
@@ -55,7 +55,7 @@ class ColorPalletComponent extends HTMLElement {
     connectedCallback() {
         if (window.location.search) {
             let query = window.location.href;
-            query = query.replace(`${window.location.origin}${window.location.pathname}?`, '');
+            query = query.replace(`${window.location.origin}?`, '');
             const params = query.split('&');
             const colors = [];
             for (let i = 0; i < params.length; i++) {

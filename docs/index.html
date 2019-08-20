@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="icon" sizes="192x192" href="assets/icon.png">
     
     <title>Colour Palette Generator</title>
     <meta name="description" content="A tool to automagically generate colour palettes for a project.">
@@ -281,5 +283,17 @@
         <color-value-component></color-value-component>
     </template>
     <script type="module" src="assets/components/application.js"></script>
+    <script type="module">
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('worker.js', {scope: '/'})
+            .then((reg) => {
+                // registration worked
+                console.log('Registration succeeded. Scope is ' + reg.scope);
+            }).catch((error) => {
+                // registration failed
+                console.log('Registration failed with ' + error);
+            });
+        }
+    </script>
 </body>
 </html>
