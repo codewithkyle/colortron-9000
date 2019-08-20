@@ -25,7 +25,7 @@ class ColorPalletComponent extends HTMLElement
 
     private updateUrl() : void
     {
-        let newUrl = `${ window.location.origin }`;
+        let newUrl = `${ window.location.origin }${ window.location.pathname }`;
 
         if (this._colorPallet.length)
         {
@@ -86,7 +86,7 @@ class ColorPalletComponent extends HTMLElement
         if (window.location.search)
         {
             let query = window.location.href;
-            query = query.replace(`${ window.location.origin }?`, '');
+            query = query.replace(`${ window.location.origin }${ window.location.pathname }?`, '');
             const params = query.split('&');
             const colors:Array<string> = [];
 

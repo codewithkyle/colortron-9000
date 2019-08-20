@@ -10,7 +10,7 @@ class Application {
                 stylesheetEl = document.createElement('style');
                 stylesheetEl.setAttribute('component', stylesheet);
                 document.head.appendChild(stylesheetEl);
-                fetch(`${window.location.origin}/assets/styles/${stylesheet}.css`)
+                fetch(`${window.location.origin}${window.location.pathname}assets/styles/${stylesheet}.css`)
                     .then(request => request.text())
                     .then(response => {
                     stylesheetEl.innerHTML = response;
