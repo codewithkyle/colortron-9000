@@ -141,6 +141,7 @@ class ColorModalComponent extends HTMLElement {
             this._inputs[i].addEventListener('blur', this.handleInputBlur);
             this._inputs[i].addEventListener('keyup', this.handleInputKeyup);
         }
+        this._hexInput.focus();
     }
     disconnectedCallback() {
         document.body.removeEventListener('keyup', this.handleKeypress);
