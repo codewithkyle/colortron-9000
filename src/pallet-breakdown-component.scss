@@ -9,7 +9,7 @@ pallet-breakdown-component
         tabs-container
         {
             visibility: visible;
-            opacity: 1;
+            opacity: 1 !important;
             pointer-events: all;
         }
     }
