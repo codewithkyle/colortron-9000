@@ -34,7 +34,7 @@ class ColorPalletComponent extends HTMLElement
 
         for (let i = 0; i < this._colorPallet.length; i++)
         {
-            newUrl += `colors[]=${ this._colorPallet[i] }`;
+            newUrl += `color=${ this._colorPallet[i] }`;
 
             if (i != this._colorPallet.length - 1)
             {
@@ -92,9 +92,9 @@ class ColorPalletComponent extends HTMLElement
 
             for (let i = 0; i < params.length; i++)
             {
-                if (params[i].match(/colors\[\]\=/gi))
+                if (params[i].match(/color\=/gi))
                 {
-                    const newColor = params[i].replace('colors[]=', '').toLowerCase();
+                    const newColor = params[i].replace('color=', '').toLowerCase();
                     let isNewColor = true;
                     for (let k = 0; k < colors.length; k++)
                     {

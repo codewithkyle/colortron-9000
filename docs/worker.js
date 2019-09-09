@@ -1,4 +1,8 @@
 const cacheId = 'v6';
+var urlsToCache = [
+    '/',
+    '/app'
+];
 
 self.addEventListener('fetch', (event) => {
     event.respondWith(
@@ -24,4 +28,13 @@ self.addEventListener('message', (event)=>{
             })
         );
     });
+});
+
+self.addEventListener('install', function(event) {
+    event.waitUntil(
+        caches.open(CACHE_NAME)
+        .then((cache) => {
+            return cache.addAll(urlsToCache);
+        })
+    );
 });
