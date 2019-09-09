@@ -18,16 +18,21 @@ self.addEventListener('fetch', (event) => {
 });
 
 self.addEventListener('message', (event)=>{
-    caches.keys().then((cacheNames)=>{
-        return Promise.all(
-            cacheNames.map((cacheName)=>{
-                if (cacheName !== cacheId)
-                {
-                    return caches.delete(cacheName);
-                }
-            })
-        );
-    });
+    if (event.data.cachebust)
+    {
+        cacheId = event.data.cachebust;
+
+        caches.keys().then((cacheNames)=>{
+            return Promise.all(
+                cacheNames.map((cacheName)=>{
+                    if (cacheName !== cacheId)
+                    {
+                        return caches.delete(cacheName);
+                    }
+                })
+            );
+        });
+    }
 });
 
 self.addEventListener('install', function(event) {
