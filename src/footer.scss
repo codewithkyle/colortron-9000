@@ -1,0 +1,22 @@
+footer{
+    display: block;
+    width: 100%;
+    text-align: center;
+    color: var(--grey-700);
+    font-size: var(--text-sm);
+    padding: 0 1rem 1rem;
+
+    svg{
+        display: inline-block;
+        margin: 0 0.25rem;
+        width: 12px;
+        height: 12px;
+        color: var(--danger-400);
+    }
+
+    a{
+        margin: 0 0.25rem;
+        color: var(--primary-700);
+        text-decoration: underline;
+    }
+}
