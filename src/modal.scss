@@ -1,4 +1,4 @@
-popup-modal{
+.popup-modal{
     position: fixed;
     top: 0;
     left: 0;
@@ -9,7 +9,7 @@ popup-modal{
     align-items: center;
     z-index: 9999;
 
-    modal-backdrop{
+    .modal-backdrop{
         position: absolute;
         top: 0;
         left: 0;
@@ -20,7 +20,7 @@ popup-modal{
         z-index: 1;
     }
 
-    modal-component{
+    .modal{
         z-index: 2;
         border-radius: 0.25rem;
         padding: 1.5rem 2rem;
@@ -108,37 +108,37 @@ popup-modal{
             }
         }
 
-        input-wrapper{
+        .input-wrapper{
             display: block;
             width: 100%;
-        }
 
-        label{
-            color: var(--neutral-700);
-            font-size: var(--text-sm);
-            display: block;
-            width: 100%;
-            margin-bottom: 0.25rem;
-        }
-
-        input{
-            display: block;
-            width: 100%;
-            border-radius: 0.25rem;
-            border: 1px solid var(--neutral-300);
-            height: 48px;
-            padding: 0 1rem;
-            margin-bottom: 1rem;
-
-            &:hover,
-            &:focus{
-                border-color: var(--primary-400);
-                box-shadow: 0 0 3px rgba(99, 179, 237, 0.06), 0 0 6px rgba(99, 179, 237, 0.1);
+            label{
+                color: var(--neutral-700);
+                font-size: var(--text-sm);
+                display: block;
+                width: 100%;
+                margin-bottom: 0.25rem;
             }
-
-            &.is-invalid{
-                border-color: var(--danger-400);
-                box-shadow: 0 0 3px rgba(245, 101, 101, 0.06), 0 0 6px rgba(245, 101, 101, 0.1);
+    
+            input{
+                display: block;
+                width: 100%;
+                border-radius: 0.25rem;
+                border: 1px solid var(--neutral-300);
+                height: 48px;
+                padding: 0 1rem;
+                margin-bottom: 1rem;
+    
+                &:hover,
+                &:focus{
+                    border-color: var(--primary-400);
+                    box-shadow: 0 0 3px rgba(99, 179, 237, 0.06), 0 0 6px rgba(99, 179, 237, 0.1);
+                }
+    
+                &.is-invalid{
+                    border-color: var(--danger-400);
+                    box-shadow: 0 0 3px rgba(245, 101, 101, 0.06), 0 0 6px rgba(245, 101, 101, 0.1);
+                }
             }
         }
     }

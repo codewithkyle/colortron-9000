@@ -6,191 +6,22 @@ import './app.scss';
 import './buttons.scss';
 import './modal.scss';
 import './footer.scss';
+import './new-color-button.scss';
 import type { Color } from './types';
+import { NewColorModal } from './modals/new-color-modal';
 
 type AppState = {
     colors: Array<Color>;
+    view: 'base'|'new-color';
 };
 
 class Application extends Component<{}, AppState> {
-    private presets: Array<Color>;
-    
     constructor() {
         super();
         this.state = {
             colors: [],
+            view: 'base'
         };
-
-        this.presets = [
-            {
-                hex: '4299E1',
-                shades: [
-                    'EBF8FF',
-                    'BEE3F8',
-                    '90CDF4',
-                    '63B3ED',
-                    '4299E1',
-                    '3182CE',
-                    '2B6CB0',
-                    '2C5282',
-                    '2A4365',
-                ]
-            },
-            {
-                hex: '9E9E9E',
-                shades: [
-                    'F5F5F5',
-                    'EEEEEE',
-                    'E0E0E0',
-                    'BDBDBD',
-                    '9E9E9E',
-                    '757575',
-                    '616161',
-                    '424242',
-                    '212121',
-                ]
-            },
-            {
-                hex: 'A0AEC0',
-                shades: [
-                    'F7FAFC',
-                    'EDF2F7',
-                    'E2E8F0',
-                    'CBD5E0',
-                    'A0AEC0',
-                    '718096',
-                    '4A5568',
-                    '2D3748',
-                    '1A202C',
-                ]
-            },
-            {
-                hex: 'F56565',
-                shades: [
-                    'FFF5F5',
-                    'FED7D7',
-                    'FEB2B2',
-                    'FC8181',
-                    'F56565',
-                    'E53E3E',
-                    'C53030',
-                    '9B2C2C',
-                    '742A2A',
-                ]
-            },
-            {
-                hex: 'ED8936',
-                shades: [
-                    'FFFAF0',
-                    'FEEBC8',
-                    'FBD38D',
-                    'F6AD55',
-                    'ED8936',
-                    'DD6B20',
-                    'C05621',
-                    '9C4221',
-                    '7B341E',
-                ]
-            },
-            {
-                hex: 'ECC94B',
-                shades: [
-                    'FFFFF0',
-                    'FEFCBF',
-                    'FAF089',
-                    'F6E05E',
-                    'ECC94B',
-                    'D69E2E',
-                    'B7791F',
-                    '975A16',
-                    '744210',
-                ]
-            },
-            {
-                hex: '48BB78',
-                shades: [
-                    'F0FFF4',
-                    'C6F6D5',
-                    '9AE6B4',
-                    '68D391',
-                    '48BB78',
-                    '38A169',
-                    '2F855A',
-                    '276749',
-                    '22543D',
-                ]
-            },
-            {
-                hex: '38B2AC',
-                shades: [
-                    'E6FFFA',
-                    'B2F5EA',
-                    '81E6D9',
-                    '4FD1C5',
-                    '38B2AC',
-                    '319795',
-                    '2C7A7B',
-                    '285E61',
-                    '234E52',
-                ]
-            },
-            {
-                hex: '4299E1',
-                shades: [
-                    'EBF8FF',
-                    'BEE3F8',
-                    '90CDF4',
-                    '63B3ED',
-                    '4299E1',
-                    '3182CE',
-                    '2B6CB0',
-                    '2C5282',
-                    '2A4365',
-                ]
-            },
-            {
-                hex: '667EEA',
-                shades: [
-                    'EBF4FF',
-                    'C3DAFE',
-                    'A3BFFA',
-                    '7F9CF5',
-                    '667EEA',
-                    '5A67D8',
-                    '4C51BF',
-                    '434190',
-                    '3C366B',
-                ]
-            },
-            {
-                hex: '9F7AEA',
-                shades: [
-                    'FAF5FF',
-                    'E9D8FD',
-                    'D6BCFA',
-                    'B794F4',
-                    '9F7AEA',
-                    '805AD5',
-                    '6B46C1',
-                    '553C9A',
-                    '44337A',
-                ]
-            },
-            {
-                hex: 'ED64A6',
-                shades: [
-                    'FFF5F7',
-                    'FED7E2',
-                    'FBB6CE',
-                    'F687B3',
-                    'ED64A6',
-                    'D53F8C',
-                    'B83280',
-                    '97266D',
-                    '702459',
-                ]
-            }
-        ];
 
         if (localStorage.getItem('colors')) {
             // @ts-ignore
@@ -198,10 +29,45 @@ class Application extends Component<{}, AppState> {
         }
     }
 
+    private addColor(hex:string, shades:Array<string>){
+        const updatedState = {...this.state};
+        updatedState.colors.push({
+            hex: hex,
+            shades: shades
+        });
+        this.setState(updatedState);
+    }
+
+    private openNewColorModal:EventListener = () => {
+        this.setState({view: 'new-color'});
+    }
+
+    private closeModal(){
+        this.setState({view: 'base'});
+    }
+
+    componentDidUpdate(){
+        if (this.state.colors.length){
+            localStorage.setItem('colors', JSON.stringify(this.state.colors));
+        }
+    }
+
     render() {
+        let modal;
+        switch (this.state.view){
+            case 'base':
+                modal = null;
+                break;
+            case 'new-color':
+                modal = <NewColorModal addColorCallback={this.addColor.bind(this)} closeCallback={this.closeModal.bind(this)} />
+                break;
+            default:
+                modal = null;
+                break;
+        }
         return (
             <Fragment>
-                <header className="flex items-center px-8 py-4 bg-white shadow-md">
+                <header className={`flex items-center px-8 py-4 bg-white shadow-md ${this.state.view !== 'base' ? 'is-blurry':''}`}>
                     <h1 className="text-grey-700 text-2xl">Color Palette Manager</h1>
                     <div className="flex items-center">
                         <button type="default" kind="text" className="mr-2" onClick={null}>
@@ -218,11 +84,11 @@ class Application extends Component<{}, AppState> {
                         </button>
                     </div>
                 </header>
-                <div className="app-shell">
+                <div className={`app-shell ${this.state.view !== 'base' ? 'is-blurry':''}`}>
                     <div className="block bg-white shadow-md px-8 pt-6 pb-8 mb-8 rounded-md">
-                        <h2 className="text-2xl text-grey-700 mb-4">Color Palette</h2>
+                        <h2 className="text-2xl text-grey-700 mb-4">Colors</h2>
                         <div className="color-buttons-wrapper">
-                            <button className="new-color-button" onClick={null}>
+                            <button className="new-color-button" onClick={this.openNewColorModal}>
                                 <svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                                     <path
                                         fill="currentColor"
@@ -234,7 +100,7 @@ class Application extends Component<{}, AppState> {
                         </div>
                     </div>
                 </div>
-                <footer>
+                <footer className={this.state.view !== 'base' ? 'is-blurry':''}>
                     <span>
                         Created with
                         <svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -248,6 +114,7 @@ class Application extends Component<{}, AppState> {
                         &copy; 2020
                     </span>
                 </footer>
+                {modal}
             </Fragment>
         );
     }
