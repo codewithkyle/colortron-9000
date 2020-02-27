@@ -16,6 +16,7 @@ import { Color } from './types';
 type AppState = {
     colors: Array<Color>;
     view: 'base' | 'new-color';
+    activeColorIndex: number;
 };
 
 class Application extends Component<{}, AppState> {
@@ -24,6 +25,7 @@ class Application extends Component<{}, AppState> {
         this.state = {
             colors: [],
             view: 'base',
+            activeColorIndex: null,
         };
 
         if (localStorage.getItem('colors')) {
@@ -54,9 +56,14 @@ class Application extends Component<{}, AppState> {
         this.setState({
             colors: [],
             view: 'base',
+            activeColorIndex: null,
         });
         localStorage.removeItem('colors');
     };
+
+    private switchActiveColor(index: number) {
+        this.setState({ activeColorIndex: index });
+    }
 
     componentDidUpdate() {
         if (this.state.colors.length) {
@@ -64,7 +71,7 @@ class Application extends Component<{}, AppState> {
         }
     }
 
-    private renderColorButton = (color: Color, index: number) => <ColorButton key={index} color={color} />;
+    private renderColorButton = (color: Color, index: number) => <ColorButton index={index} color={color} callback={this.switchActiveColor.bind(this)} />;
 
     render() {
         let modal;

@@ -1,4 +1,9 @@
 .popup-modal#new-color{
+
+    .modal{
+        width: 580px;
+    }
+
     .tabs-wrapper{
         display: block;
         width: 100%;
@@ -72,6 +77,35 @@
                 display: inline-block;
                 margin-right: 1rem;
                 box-shadow: var(--shadow-inner);
+            }
+        }
+
+        .preset-button{
+            width: 5rem;
+            height: 5rem;
+            border-radius: 0.25rem;
+            box-shadow: var(--shadow-inner);
+            font-size: var(--text-xs);
+            margin: 0.5rem;
+            transition: all 150ms var(--ease);
+
+            &:hover{
+                transform: scale(1.1);
+                transition: all 150ms var(--ease-bounce);
+            }
+        
+            &:active{
+                transform: scale(0.87);
+            }
+        
+            &:focus-visible{
+                outline: 2px solid var(--black);
+                border: 2px solid var(--white);
+            }
+
+            &.is-selected{
+                transform: scale(1.1);
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.25), 0 2px 4px -1px rgba(0, 0, 0, 0.15);
             }
         }
     }
