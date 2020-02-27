@@ -24,12 +24,19 @@ footer{
     }
 
     .color-buttons-wrapper{
-        margin-bottom: -1.5rem;
+        margin: -0.5rem 0 -0.5rem -0.5rem;
         text-align: center;
 
         @media (min-width: 600px){
             text-align: left;
         }
+    }
+
+    .shade-breakdown{
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
     }
 }
 header{

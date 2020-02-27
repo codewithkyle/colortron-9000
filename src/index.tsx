@@ -10,6 +10,7 @@ import './new-color-button.scss';
 
 import { NewColorModal } from './modals/new-color-modal';
 import { ColorButton } from './color-button/color-button';
+import { Shade } from './shade/shade';
 
 import { Color } from './types';
 
@@ -73,6 +74,8 @@ class Application extends Component<{}, AppState> {
 
     private renderColorButton = (color: Color, index: number) => <ColorButton index={index} color={color} callback={this.switchActiveColor.bind(this)} />;
 
+    private renderShade = (shade: string) => <Shade shade={shade} />;
+
     render() {
         let modal;
         switch (this.state.view) {
@@ -89,6 +92,16 @@ class Application extends Component<{}, AppState> {
         let colorButtons = null;
         if (this.state.colors.length) {
             colorButtons = this.state.colors.map((color, index) => this.renderColorButton(color, index));
+        }
+        let shadingBlock = null;
+        if (this.state.colors.length && this.state.activeColorIndex !== null) {
+            const shades = this.state.colors[this.state.activeColorIndex].shades.map(shade => this.renderShade(shade));
+            shadingBlock = (
+                <div className="block bg-white shadow-md px-8 pt-6 pb-8 mb-8 rounded-md">
+                    <h2 className="text-2xl text-grey-700 mb-4">Shades</h2>
+                    <div className="shade-breakdown">{shades}</div>
+                </div>
+            );
         }
         return (
             <Fragment>
@@ -125,6 +138,7 @@ class Application extends Component<{}, AppState> {
                             </button>
                         </div>
                     </div>
+                    {shadingBlock}
                 </div>
                 <footer className={this.state.view !== 'base' ? 'is-blurry' : ''}>
                     <span>
