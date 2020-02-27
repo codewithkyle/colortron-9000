@@ -1,0 +1,24 @@
+.color-button{
+    position: relative;
+    display: inline-block;
+    width: 6rem;
+    height: 6rem;
+    border-radius: 0.25rem;
+    margin: 0 1rem 1rem 0;
+    box-shadow: var(--shadow-inner);
+    transition: all 150ms var(--ease);
+
+    &:hover{
+        transform: scale(1.1);
+        transition: all 150ms var(--ease-bounce);
+    }
+
+    &:active{
+        transform: scale(0.87);
+    }
+
+    &:focus-visible{
+        outline: 2px solid var(--black);
+        border: 2px solid var(--white);
+    }
+}

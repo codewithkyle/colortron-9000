@@ -49,5 +49,30 @@
         margin-bottom: 1rem;
         border-radius: 0 0.25rem 0.25rem;
         z-index: 1;
+
+        .custom-input{
+            display: flex;
+            align-items: center;
+            width: 100%;
+            position: relative;
+
+            input[type="color"]{
+                width: 0;
+                height: 0;
+                position: absolute;
+                top: 0;
+                left: 0;
+                opacity: 0;
+            }
+
+            label{
+                width: 48px;
+                height: 48px;
+                border-radius: 0.25rem;
+                display: inline-block;
+                margin-right: 1rem;
+                box-shadow: var(--shadow-inner);
+            }
+        }
     }
 }

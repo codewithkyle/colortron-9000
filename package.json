@@ -37,6 +37,7 @@
         "webpack-cli": "^3.3.10"
     },
     "dependencies": {
+        "color-convert": "^2.0.1",
         "preact": "^10.3.2",
         "tailwindcss": "^1.2.0"
     }

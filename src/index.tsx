@@ -7,12 +7,15 @@ import './buttons.scss';
 import './modal.scss';
 import './footer.scss';
 import './new-color-button.scss';
-import type { Color } from './types';
+
 import { NewColorModal } from './modals/new-color-modal';
+import { ColorButton } from './color-button/color-button';
+
+import { Color } from './types';
 
 type AppState = {
     colors: Array<Color>;
-    view: 'base'|'new-color';
+    view: 'base' | 'new-color';
 };
 
 class Application extends Component<{}, AppState> {
@@ -20,7 +23,7 @@ class Application extends Component<{}, AppState> {
         super();
         this.state = {
             colors: [],
-            view: 'base'
+            view: 'base',
         };
 
         if (localStorage.getItem('colors')) {
@@ -29,51 +32,66 @@ class Application extends Component<{}, AppState> {
         }
     }
 
-    private addColor(hex:string, shades:Array<string>){
-        const updatedState = {...this.state};
+    private addColor(hex: string, shades: Array<string>) {
+        const updatedState = { ...this.state };
         updatedState.colors.push({
             hex: hex,
-            shades: shades
+            shades: shades,
         });
+        updatedState.view = 'base';
         this.setState(updatedState);
     }
 
-    private openNewColorModal:EventListener = () => {
-        this.setState({view: 'new-color'});
+    private openNewColorModal: EventListener = () => {
+        this.setState({ view: 'new-color' });
+    };
+
+    private closeModal() {
+        this.setState({ view: 'base' });
     }
 
-    private closeModal(){
-        this.setState({view: 'base'});
-    }
+    private reset: EventListener = () => {
+        this.setState({
+            colors: [],
+            view: 'base',
+        });
+        localStorage.removeItem('colors');
+    };
 
-    componentDidUpdate(){
-        if (this.state.colors.length){
+    componentDidUpdate() {
+        if (this.state.colors.length) {
             localStorage.setItem('colors', JSON.stringify(this.state.colors));
         }
     }
 
+    private renderColorButton = (color: Color, index: number) => <ColorButton key={index} color={color} />;
+
     render() {
         let modal;
-        switch (this.state.view){
+        switch (this.state.view) {
             case 'base':
                 modal = null;
                 break;
             case 'new-color':
-                modal = <NewColorModal addColorCallback={this.addColor.bind(this)} closeCallback={this.closeModal.bind(this)} />
+                modal = <NewColorModal addColorCallback={this.addColor.bind(this)} closeCallback={this.closeModal.bind(this)} />;
                 break;
             default:
                 modal = null;
                 break;
         }
+        let colorButtons = null;
+        if (this.state.colors.length) {
+            colorButtons = this.state.colors.map((color, index) => this.renderColorButton(color, index));
+        }
         return (
             <Fragment>
-                <header className={`flex items-center px-8 py-4 bg-white shadow-md ${this.state.view !== 'base' ? 'is-blurry':''}`}>
-                    <h1 className="text-grey-700 text-2xl">Color Palette Manager</h1>
+                <header className={`flex items-center px-8 py-4 bg-white shadow-md ${this.state.view !== 'base' ? 'is-blurry' : ''}`}>
+                    <h1 className="text-grey-700 text-2xl">Color Buddy 9000</h1>
                     <div className="flex items-center">
                         <button type="default" kind="text" className="mr-2" onClick={null}>
                             Help
                         </button>
-                        <button type="default" kind="text" className="mr-2" onClick={null}>
+                        <button type="default" kind="text" className="mr-2" onClick={this.reset}>
                             Reset
                         </button>
                         <button type="default" kind="text" onClick={null}>
@@ -84,10 +102,11 @@ class Application extends Component<{}, AppState> {
                         </button>
                     </div>
                 </header>
-                <div className={`app-shell ${this.state.view !== 'base' ? 'is-blurry':''}`}>
+                <div className={`app-shell ${this.state.view !== 'base' ? 'is-blurry' : ''}`}>
                     <div className="block bg-white shadow-md px-8 pt-6 pb-8 mb-8 rounded-md">
                         <h2 className="text-2xl text-grey-700 mb-4">Colors</h2>
                         <div className="color-buttons-wrapper">
+                            {colorButtons}
                             <button className="new-color-button" onClick={this.openNewColorModal}>
                                 <svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                                     <path
@@ -100,7 +119,7 @@ class Application extends Component<{}, AppState> {
                         </div>
                     </div>
                 </div>
-                <footer className={this.state.view !== 'base' ? 'is-blurry':''}>
+                <footer className={this.state.view !== 'base' ? 'is-blurry' : ''}>
                     <span>
                         Created with
                         <svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
