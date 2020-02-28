@@ -13,12 +13,13 @@ import { ColorButton } from './color-button/color-button';
 import { Shade } from './shade/shade';
 import { ExportModal } from './modals/export-modal';
 import { ImportModal } from './modals/import-modal';
+import { HelpModal } from './modals/help-modal';
 
 import { Color } from './types';
 
 type AppState = {
     colors: Array<Color>;
-    view: 'base' | 'new-color' | 'export' | 'import';
+    view: 'base' | 'new-color' | 'export' | 'import' | 'help';
     activeColorIndex: number;
 };
 
@@ -106,6 +107,10 @@ class Application extends Component<{}, AppState> {
         this.setState({ view: 'import' });
     };
 
+    private help: EventListener = () => {
+        this.setState({ view: 'help' });
+    };
+
     private switchActiveColor(index: number) {
         this.setState({ activeColorIndex: index });
     }
@@ -158,6 +163,9 @@ class Application extends Component<{}, AppState> {
             case 'import':
                 modal = <ImportModal closeCallback={this.closeModal.bind(this)} importCallback={this.importColors.bind(this)} />;
                 break;
+            case 'help':
+                modal = <HelpModal closeCallback={this.closeModal.bind(this)} />;
+                break;
             default:
                 modal = null;
                 break;
@@ -190,7 +198,7 @@ class Application extends Component<{}, AppState> {
                 <header className={`flex items-center px-8 py-4 bg-white shadow-md ${this.state.view !== 'base' ? 'is-blurry' : ''}`}>
                     <h1 className="text-grey-700 text-2xl">Color Buddy 9000</h1>
                     <div className="flex items-center">
-                        <button type="default" kind="text" className="mr-2" onClick={null}>
+                        <button type="default" kind="text" className="mr-2" onClick={this.help}>
                             Help
                         </button>
                         <button type="default" kind="text" className="mr-2" onClick={this.reset}>
