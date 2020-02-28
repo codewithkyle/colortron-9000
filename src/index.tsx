@@ -12,12 +12,13 @@ import { NewColorModal } from './modals/new-color-modal';
 import { ColorButton } from './color-button/color-button';
 import { Shade } from './shade/shade';
 import { ExportModal } from './modals/export-modal';
+import { ImportModal } from './modals/import-modal';
 
 import { Color } from './types';
 
 type AppState = {
     colors: Array<Color>;
-    view: 'base' | 'new-color' | 'export';
+    view: 'base' | 'new-color' | 'export' | 'import';
     activeColorIndex: number;
 };
 
@@ -30,10 +31,44 @@ class Application extends Component<{}, AppState> {
             activeColorIndex: null,
         };
 
+        if (location.search.length) {
+            const urlParams = this.parseURL(location.href);
+            window.history.replaceState(null, document.title, location.origin);
+            if (!urlParams) {
+                return;
+            }
+            localStorage.setItem('colors', JSON.stringify(urlParams.colors));
+        }
+
         if (localStorage.getItem('colors')) {
             // @ts-ignore
             this.state.colors = JSON.parse(localStorage.getItem('colors'));
         }
+    }
+
+    private parseURL(href: string) {
+        const colors: Array<Color> = [];
+        const url = new URL(href);
+        const colorParams = url.searchParams.getAll('color');
+        if (colorParams.length === 0) {
+            return null;
+        }
+        for (let p = 0; p < colorParams.length; p++) {
+            if (colorParams[p].length) {
+                const vars = colorParams[p].split('-');
+                const newColor: Color = {
+                    hex: `#${vars[0]}`,
+                    shades: [],
+                };
+                for (let i = 1; i < vars.length; i++) {
+                    newColor.shades.push(`#${vars[i]}`);
+                }
+                colors.push(newColor);
+            }
+        }
+        return {
+            colors: colors,
+        };
     }
 
     private addColor(hex: string, shades: Array<string>) {
@@ -67,6 +102,10 @@ class Application extends Component<{}, AppState> {
         this.setState({ view: 'export' });
     };
 
+    private import: EventListener = () => {
+        this.setState({ view: 'import' });
+    };
+
     private switchActiveColor(index: number) {
         this.setState({ activeColorIndex: index });
     }
@@ -81,6 +120,18 @@ class Application extends Component<{}, AppState> {
         }
         this.setState(updatedState);
     };
+
+    private importColors(href: string) {
+        const updatedState = { ...this.state };
+        updatedState.view = 'base';
+        if (href.length) {
+            const urlParams = this.parseURL(href);
+            if (urlParams) {
+                updatedState.colors = urlParams.colors;
+            }
+        }
+        this.setState(updatedState);
+    }
 
     componentDidUpdate() {
         if (this.state.colors.length) {
@@ -103,6 +154,9 @@ class Application extends Component<{}, AppState> {
                 break;
             case 'export':
                 modal = <ExportModal colors={this.state.colors} closeCallback={this.closeModal.bind(this)} />;
+                break;
+            case 'import':
+                modal = <ImportModal closeCallback={this.closeModal.bind(this)} importCallback={this.importColors.bind(this)} />;
                 break;
             default:
                 modal = null;
@@ -142,7 +196,7 @@ class Application extends Component<{}, AppState> {
                         <button type="default" kind="text" className="mr-2" onClick={this.reset}>
                             Reset
                         </button>
-                        <button type="default" kind="text" onClick={null}>
+                        <button type="default" kind="text" onClick={this.import}>
                             Import
                         </button>
                         <button type="default" kind="text" onClick={this.export}>
