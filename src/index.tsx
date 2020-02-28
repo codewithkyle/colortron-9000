@@ -11,12 +11,13 @@ import './new-color-button.scss';
 import { NewColorModal } from './modals/new-color-modal';
 import { ColorButton } from './color-button/color-button';
 import { Shade } from './shade/shade';
+import { ExportModal } from './modals/export-modal';
 
 import { Color } from './types';
 
 type AppState = {
     colors: Array<Color>;
-    view: 'base' | 'new-color';
+    view: 'base' | 'new-color' | 'export';
     activeColorIndex: number;
 };
 
@@ -62,6 +63,10 @@ class Application extends Component<{}, AppState> {
         localStorage.removeItem('colors');
     };
 
+    private export: EventListener = () => {
+        this.setState({ view: 'export' });
+    };
+
     private switchActiveColor(index: number) {
         this.setState({ activeColorIndex: index });
     }
@@ -95,6 +100,9 @@ class Application extends Component<{}, AppState> {
                 break;
             case 'new-color':
                 modal = <NewColorModal addColorCallback={this.addColor.bind(this)} closeCallback={this.closeModal.bind(this)} />;
+                break;
+            case 'export':
+                modal = <ExportModal colors={this.state.colors} closeCallback={this.closeModal.bind(this)} />;
                 break;
             default:
                 modal = null;
@@ -137,7 +145,7 @@ class Application extends Component<{}, AppState> {
                         <button type="default" kind="text" onClick={null}>
                             Import
                         </button>
-                        <button type="default" kind="text" onClick={null}>
+                        <button type="default" kind="text" onClick={this.export}>
                             Export
                         </button>
                     </div>
