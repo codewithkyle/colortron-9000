@@ -1,4 +1,5 @@
 import { h, render, Component, Fragment } from 'preact';
+import { Color } from './types';
 
 import './variables.scss';
 import './base.css';
@@ -14,8 +15,6 @@ import { Shade } from './shade/shade';
 import { ExportModal } from './modals/export-modal';
 import { ImportModal } from './modals/import-modal';
 import { HelpModal } from './modals/help-modal';
-
-import { Color } from './types';
 
 type AppState = {
     colors: Array<Color>;
