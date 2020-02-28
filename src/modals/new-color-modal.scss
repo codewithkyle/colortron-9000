@@ -57,6 +57,7 @@
 
         .custom-input{
             display: flex;
+            flex-flow:  row wrap;
             align-items: center;
             width: 100%;
             position: relative;

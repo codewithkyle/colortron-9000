@@ -3,6 +3,8 @@ import './new-color-modal.scss';
 import { Color } from '../types';
 import * as convert from 'color-convert';
 import { contrast } from '../contrast';
+import { getComplementaryColor } from '../complementary';
+import { Lightswitch } from '../lightswitch/lightswitch';
 
 type NewColorModalProps = {
     addColorCallback: Function;
@@ -13,6 +15,7 @@ type NewColorModalState = {
     tab: 'custom' | 'preset';
     customColor: string;
     presetIndex: number;
+    generateComplementary: boolean;
 };
 
 export class NewColorModal extends Component<NewColorModalProps, NewColorModalState> {
@@ -23,6 +26,7 @@ export class NewColorModal extends Component<NewColorModalProps, NewColorModalSt
             tab: 'custom',
             customColor: '#000000',
             presetIndex: 0,
+            generateComplementary: false,
         };
         this.presets = [
             {
@@ -174,6 +178,11 @@ export class NewColorModal extends Component<NewColorModalProps, NewColorModalSt
         if (this.state.tab === 'custom') {
             const shades = this.generateShades(this.state.customColor);
             this.props.addColorCallback(this.state.customColor, shades);
+            if (this.state.generateComplementary) {
+                const complementary = getComplementaryColor(this.state.customColor);
+                const complementaryShades = this.generateShades(complementary);
+                this.props.addColorCallback(complementary, complementaryShades);
+            }
         } else if (this.state.tab === 'preset') {
             this.props.addColorCallback(this.presets[this.state.presetIndex].hex, this.presets[this.state.presetIndex].shades);
         }
@@ -184,6 +193,10 @@ export class NewColorModal extends Component<NewColorModalProps, NewColorModalSt
         const index = parseInt(target.dataset.index);
         this.setState({ presetIndex: index });
     };
+
+    private toggleComplementary(checked: boolean) {
+        this.setState({ generateComplementary: checked });
+    }
 
     private renderPresetButton = (color: Color, index: number) => (
         <button
@@ -204,6 +217,7 @@ export class NewColorModal extends Component<NewColorModalProps, NewColorModalSt
                     <input onChange={this.updateCustomColor} type="color" id="color-input" />
                     <label style={{ backgroundColor: this.state.customColor }} htmlFor="color-input" aria-label="color input swatch"></label>
                     <input maxLength={7} onChange={this.updateCustomColor} type="text" value={this.state.customColor} />
+                    <Lightswitch label="Generate complementary color" name="complementary" callback={this.toggleComplementary.bind(this)} />
                 </div>
             );
         } else if (this.state.tab === 'preset') {

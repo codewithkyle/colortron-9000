@@ -66,6 +66,17 @@ class Application extends Component<{}, AppState> {
         this.setState({ activeColorIndex: index });
     }
 
+    private deleteColor: EventListener = () => {
+        const updatedState = { ...this.state };
+        updatedState.colors.splice(this.state.activeColorIndex, 1);
+        if (updatedState.colors.length) {
+            updatedState.activeColorIndex = 0;
+        } else {
+            updatedState.activeColorIndex = null;
+        }
+        this.setState(updatedState);
+    };
+
     componentDidUpdate() {
         if (this.state.colors.length) {
             localStorage.setItem('colors', JSON.stringify(this.state.colors));
@@ -98,7 +109,16 @@ class Application extends Component<{}, AppState> {
             const shades = this.state.colors[this.state.activeColorIndex].shades.map(shade => this.renderShade(shade));
             shadingBlock = (
                 <div className="block bg-white shadow-md px-8 pt-6 pb-8 mb-8 rounded-md">
-                    <h2 className="text-2xl text-grey-700 mb-4">Shades</h2>
+                    <div className="flex items-center justify-between mb-4">
+                        <h2 className="text-2xl text-grey-700">
+                            <span>{this.state.colors[this.state.activeColorIndex].hex}</span> Shades
+                        </h2>
+                        <div>
+                            <button type="default" kind="text" className="mr-2" onClick={this.deleteColor}>
+                                Delete
+                            </button>
+                        </div>
+                    </div>
                     <div className="shade-breakdown">{shades}</div>
                 </div>
             );
