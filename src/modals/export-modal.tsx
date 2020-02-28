@@ -28,6 +28,25 @@ export class ExportModal extends Component<ExportModalProps, ExportModalState> {
         this.props.closeCallback();
     };
 
+    private openAccessabilityApp: EventListener = () => {
+        const a = document.createElement('a');
+        a.rel = 'noopener';
+        a.target = '_blank';
+        a.href = 'https://accessiblecolors.app?';
+        for (let i = 0; i < this.props.colors.length; i++) {
+            const color = this.props.colors[i];
+            a.href += `${i !== 0 ? '&' : ''}color=color${i + 1}`;
+            for (let k = 0; k < color.shades.length; k++) {
+                a.href += `-${color.shades[k]
+                    .replace('#', '')
+                    .toUpperCase()
+                    .trim()}`;
+            }
+        }
+        a.href += '&off-white=f5f5f5&off-black=212121';
+        a.click();
+    };
+
     render() {
         let view = null;
         if (this.state.tab === 'css') {
@@ -114,7 +133,7 @@ export class ExportModal extends Component<ExportModalProps, ExportModalState> {
                         </button>
                     </div>
                     <div className="view-wrapper">{view}</div>
-                    <button type="default" kind="solid" onClick={null}>
+                    <button type="default" kind="solid" onClick={this.openAccessabilityApp}>
                         check accessability
                     </button>
                 </div>
