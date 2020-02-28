@@ -196,7 +196,7 @@ class Application extends Component<{}, AppState> {
         return (
             <Fragment>
                 <header className={`flex items-center px-8 py-4 bg-white shadow-md ${this.state.view !== 'base' ? 'is-blurry' : ''}`}>
-                    <h1 className="text-grey-700 text-2xl">Color Buddy 9000</h1>
+                    <h1 className="text-grey-700 text-2xl">Coloratron 9000</h1>
                     <div className="flex items-center">
                         <button type="default" kind="text" className="mr-2" onClick={this.help}>
                             Help
