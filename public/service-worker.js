@@ -1,7 +1,7 @@
-const offlineCacheFiles = ['/', '/index.html', '/assets/app.js'];
-const offlineCache = 'v1';
+const offlineCacheFiles = ["/", "/index.html", "/assets/app.js"];
+const offlineCache = "v1";
 
-self.addEventListener('install', evt => {
+self.addEventListener("install", evt => {
     evt.waitUntil(
         caches.open(offlineCache).then(cache => {
             return cache.addAll(offlineCacheFiles);
@@ -9,7 +9,7 @@ self.addEventListener('install', evt => {
     );
 });
 
-self.addEventListener('activate', evt => {
+self.addEventListener("activate", evt => {
     evt.waitUntil(
         caches.keys().then(keyList => {
             return Promise.all(
@@ -23,7 +23,7 @@ self.addEventListener('activate', evt => {
     );
 });
 
-self.addEventListener('fetch', event => {
+self.addEventListener("fetch", event => {
     event.respondWith(
         caches.match(event.request).then(response => {
             if (response) {
@@ -31,9 +31,9 @@ self.addEventListener('fetch', event => {
             }
 
             return fetch(event.request, {
-                redirect: 'follow',
+                redirect: "follow",
             }).then(response => {
-                if (!response || response.status !== 200 || response.type !== 'basic') {
+                if (!response || response.status !== 200 || response.type !== "basic") {
                     return response;
                 }
 
