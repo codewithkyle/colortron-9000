@@ -1,0 +1,76 @@
+.app-shell,
+header,
+footer{
+    filter: blur(0);
+    transition: all 300ms var(--ease);
+
+    &.is-blurry{
+        filter: blur(8px);
+        transition: none;
+    }
+}
+.app-shell{
+    width: 100%;
+    max-width: 1024px;
+    display: block;
+    margin: 0 auto;
+    padding: 2rem 1rem 4rem;
+    min-height: calc(100vh - 71px - 37px);
+
+    h2{
+        @media (max-width: 600px){
+            text-align: center;
+        }
+
+        span{
+            text-transform: uppercase;
+        }
+    }
+
+    .color-buttons-wrapper{
+        margin: -0.5rem 0 -0.5rem -0.5rem;
+        text-align: center;
+
+        @media (min-width: 600px){
+            text-align: left;
+        }
+    }
+
+    .shade-breakdown{
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+
+        @media (min-width: 1024px){
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+}
+header{
+    overflow-x: auto;
+    justify-content: center;
+
+    @media (min-width: 600px){
+        justify-content: space-between;
+    }
+
+    h1{
+        display: none;
+
+        @media (min-width: 600px){
+            display: inline-block;
+        }
+    }
+}
+@keyframes modalPop
+{
+    from{
+        transform: scale(0.87);
+        opacity: 0;
+    }
+    to{
+        transform: scale(1);
+        opacity: 1;
+    }
+}
