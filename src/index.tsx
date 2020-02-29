@@ -1,24 +1,24 @@
-import { h, render, Component, Fragment } from 'preact';
-import { Color } from './types';
+import { h, render, Component, Fragment } from "preact";
+import { Color } from "./types";
 
-import './variables.scss';
-import './base.css';
-import './app.scss';
-import './buttons.scss';
-import './modal.scss';
-import './footer.scss';
-import './new-color-button.scss';
+import "./variables.scss";
+import "./base.css";
+import "./app.scss";
+import "./buttons.scss";
+import "./modal.scss";
+import "./footer.scss";
+import "./new-color-button.scss";
 
-import { NewColorModal } from './modals/new-color-modal';
-import { ColorButton } from './color-button/color-button';
-import { Shade } from './shade/shade';
-import { ExportModal } from './modals/export-modal';
-import { ImportModal } from './modals/import-modal';
-import { HelpModal } from './modals/help-modal';
+import { NewColorModal } from "./modals/new-color-modal";
+import { ColorButton } from "./color-button/color-button";
+import { Shade } from "./shade/shade";
+import { ExportModal } from "./modals/export-modal";
+import { ImportModal } from "./modals/import-modal";
+import { HelpModal } from "./modals/help-modal";
 
 type AppState = {
     colors: Array<Color>;
-    view: 'base' | 'new-color' | 'export' | 'import' | 'help';
+    view: "base" | "new-color" | "export" | "import" | "help";
     activeColorIndex: number;
 };
 
@@ -27,7 +27,7 @@ class Application extends Component<{}, AppState> {
         super();
         this.state = {
             colors: [],
-            view: 'base',
+            view: "base",
             activeColorIndex: null,
         };
 
@@ -37,25 +37,25 @@ class Application extends Component<{}, AppState> {
             if (!urlParams) {
                 return;
             }
-            localStorage.setItem('colors', JSON.stringify(urlParams.colors));
+            localStorage.setItem("colors", JSON.stringify(urlParams.colors));
         }
 
-        if (localStorage.getItem('colors')) {
+        if (localStorage.getItem("colors")) {
             // @ts-ignore
-            this.state.colors = JSON.parse(localStorage.getItem('colors'));
+            this.state.colors = JSON.parse(localStorage.getItem("colors"));
         }
     }
 
     private parseURL(href: string) {
         const colors: Array<Color> = [];
         const url = new URL(href);
-        const colorParams = url.searchParams.getAll('color');
+        const colorParams = url.searchParams.getAll("color");
         if (colorParams.length === 0) {
             return null;
         }
         for (let p = 0; p < colorParams.length; p++) {
             if (colorParams[p].length) {
-                const vars = colorParams[p].split('-');
+                const vars = colorParams[p].split("-");
                 const newColor: Color = {
                     hex: `#${vars[0]}`,
                     shades: [],
@@ -77,37 +77,37 @@ class Application extends Component<{}, AppState> {
             hex: hex,
             shades: shades,
         });
-        updatedState.view = 'base';
+        updatedState.view = "base";
         this.setState(updatedState);
     }
 
     private openNewColorModal: EventListener = () => {
-        this.setState({ view: 'new-color' });
+        this.setState({ view: "new-color" });
     };
 
     private closeModal() {
-        this.setState({ view: 'base' });
+        this.setState({ view: "base" });
     }
 
     private reset: EventListener = () => {
         this.setState({
             colors: [],
-            view: 'base',
+            view: "base",
             activeColorIndex: null,
         });
-        localStorage.removeItem('colors');
+        localStorage.removeItem("colors");
     };
 
     private export: EventListener = () => {
-        this.setState({ view: 'export' });
+        this.setState({ view: "export" });
     };
 
     private import: EventListener = () => {
-        this.setState({ view: 'import' });
+        this.setState({ view: "import" });
     };
 
     private help: EventListener = () => {
-        this.setState({ view: 'help' });
+        this.setState({ view: "help" });
     };
 
     private switchActiveColor(index: number) {
@@ -127,7 +127,7 @@ class Application extends Component<{}, AppState> {
 
     private importColors(href: string) {
         const updatedState = { ...this.state };
-        updatedState.view = 'base';
+        updatedState.view = "base";
         if (href.length) {
             const urlParams = this.parseURL(href);
             if (urlParams) {
@@ -139,7 +139,7 @@ class Application extends Component<{}, AppState> {
 
     componentDidUpdate() {
         if (this.state.colors.length) {
-            localStorage.setItem('colors', JSON.stringify(this.state.colors));
+            localStorage.setItem("colors", JSON.stringify(this.state.colors));
         }
     }
 
@@ -150,19 +150,19 @@ class Application extends Component<{}, AppState> {
     render() {
         let modal;
         switch (this.state.view) {
-            case 'base':
+            case "base":
                 modal = null;
                 break;
-            case 'new-color':
+            case "new-color":
                 modal = <NewColorModal addColorCallback={this.addColor.bind(this)} closeCallback={this.closeModal.bind(this)} />;
                 break;
-            case 'export':
+            case "export":
                 modal = <ExportModal colors={this.state.colors} closeCallback={this.closeModal.bind(this)} />;
                 break;
-            case 'import':
+            case "import":
                 modal = <ImportModal closeCallback={this.closeModal.bind(this)} importCallback={this.importColors.bind(this)} />;
                 break;
-            case 'help':
+            case "help":
                 modal = <HelpModal closeCallback={this.closeModal.bind(this)} />;
                 break;
             default:
@@ -194,8 +194,8 @@ class Application extends Component<{}, AppState> {
         }
         return (
             <Fragment>
-                <header className={`flex items-center px-8 py-4 bg-white shadow-md ${this.state.view !== 'base' ? 'is-blurry' : ''}`}>
-                    <h1 className="text-grey-700 text-2xl">Coloratron 9000</h1>
+                <header className={`flex items-center px-8 py-4 bg-white shadow-md ${this.state.view !== "base" ? "is-blurry" : ""}`}>
+                    <h1 className="text-grey-700 text-2xl">Colortron 9000</h1>
                     <div className="flex items-center">
                         <button type="default" kind="text" className="mr-2" onClick={this.help}>
                             Help
@@ -211,7 +211,7 @@ class Application extends Component<{}, AppState> {
                         </button>
                     </div>
                 </header>
-                <div className={`app-shell ${this.state.view !== 'base' ? 'is-blurry' : ''}`}>
+                <div className={`app-shell ${this.state.view !== "base" ? "is-blurry" : ""}`}>
                     <div className="block bg-white shadow-md px-8 pt-6 pb-8 mb-8 rounded-md">
                         <h2 className="text-2xl text-grey-700 mb-4">Colors</h2>
                         <div className="color-buttons-wrapper">
@@ -229,7 +229,7 @@ class Application extends Component<{}, AppState> {
                     </div>
                     {shadingBlock}
                 </div>
-                <footer className={this.state.view !== 'base' ? 'is-blurry' : ''}>
+                <footer className={this.state.view !== "base" ? "is-blurry" : ""}>
                     <span>
                         Created with
                         <svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -248,4 +248,4 @@ class Application extends Component<{}, AppState> {
         );
     }
 }
-render(<Application />, document.body.querySelector('#mounting-point'));
+render(<Application />, document.body.querySelector("#mounting-point"));
